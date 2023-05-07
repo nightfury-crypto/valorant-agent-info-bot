@@ -18,15 +18,15 @@ module.exports = {
   run: ({ interaction }) => {
     let getname = interaction.options.getString("name");
     if (getname === null) return interaction.reply("Please enter a valid agent name")
-    if (getname.toUpperCase() === "kayo".toUpperCase()) {
+    if (getname.trim().toUpperCase() === "kayo".toUpperCase()) {
       getname = "kay/o"
     }
 
     const agent = fetch("https://valorant-api.com/v1/agents")
       .then((response) => response.json())
       .then((data) => {
-        const onedata = data?.data?.map(async (check) => {
-          if (check.displayName.toUpperCase() === getname.toUpperCase()) {
+        const onedata = data?.data?.filter(removeduplicate => removeduplicate.uuid !== "ded3520f-4264-bfed-162d-b080e2abccf9" || removeduplicate.fullPortraitV2 !== null).map(async (check) => {
+          if (check.displayName.trim().toUpperCase() === getname.trim().toUpperCase()) {
             const customembed = new EmbedBuilder()
             // embed
             .setColor(0x0099FF)
