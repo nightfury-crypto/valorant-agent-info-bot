@@ -15,14 +15,14 @@ module.exports = {
         .setRequired(true)
     ),
 
-  run: ({ interaction }) => {
+  run: async ({ interaction }) => {
     let getname = interaction.options.getString("name");
     if (getname === null) return interaction.reply("Please enter a valid agent name")
     if (getname.toUpperCase() === "kayo".toUpperCase()) {
       getname = "kay/o"
     }
 
-    const agent = fetch("https://valorant-api.com/v1/agents")
+    const agent = await fetch("https://valorant-api.com/v1/agents")
       .then((response) => response.json())
       .then(async (data) => {
         const onedata = data?.data?.map(async (check) => {
